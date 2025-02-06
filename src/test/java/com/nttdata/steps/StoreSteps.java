@@ -102,13 +102,10 @@ public class StoreSteps {
     public void validateProductConfirmation() {
         WebElement confirmacionMensaje = wait.until(ExpectedConditions.visibilityOfElementLocated(SubCategoryPage.lblModalConfirmation));
 
-        // Extraemos el texto visible y eliminamos el icono (por ejemplo, el texto comienza después del icono)
         String mensajeActual = confirmacionMensaje.getText().replace("", "").trim();
 
-        // El mensaje esperado (sin el icono)
         String mensajeEsperado = "Producto añadido correctamente a su carrito de compra";
 
-        // Comprobamos que el mensaje sea el correcto, sin el icono
         Assert.assertEquals(mensajeEsperado, mensajeActual);
     }
 
@@ -149,30 +146,24 @@ public class StoreSteps {
     }
 
     public void validateCalculatePricesCart() {
-        // Extraer valores necesarios de los elementos usando las constantes de CartPage
         WebElement precioUnitarioElement = wait.until(ExpectedConditions.visibilityOfElementLocated(CartPage.spanPrecioUnitario));
         WebElement cantidadElement = wait.until(ExpectedConditions.visibilityOfElementLocated(CartPage.inputCantidad));
         WebElement precioTotalElement = wait.until(ExpectedConditions.visibilityOfElementLocated(CartPage.spanPrecioTotal));
         WebElement precioImpuestosElement = wait.until(ExpectedConditions.visibilityOfElementLocated(CartPage.spanTotalImpuestos));
 
-        // Obtener los valores como texto
         String precioUnitarioTexto = precioUnitarioElement.getText().trim().replace("S/", "").trim(); // Elimina el prefijo 'S/'
         String cantidadTexto = cantidadElement.getAttribute("value").trim();
         String precioImpuestosTexto = precioImpuestosElement.getText().trim().replace("S/", "").trim();
 
-        // Convertir los valores a números
         double precioUnitario = Double.parseDouble(precioUnitarioTexto);
         int cantidad = Integer.parseInt(cantidadTexto);
         double precioImpuesto = Double.parseDouble(precioImpuestosTexto);
 
-        // Realizar el cálculo esperado
         double precioTotalEsperado = (precioUnitario * cantidad) + precioImpuesto;
 
-        // Obtener el precio total mostrado
         String precioTotalTexto = precioTotalElement.getText().trim().replace("S/", "").trim();
         double precioTotal = Double.parseDouble(precioTotalTexto);
 
-        // Validar que el cálculo sea correcto
         Assert.assertEquals(precioTotal, precioTotalEsperado, 0.01);
     }
 
